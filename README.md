@@ -1,64 +1,47 @@
 [![KOReader](https://raw.githubusercontent.com/koreader/koreader.github.io/master/koreader-logo.png)](https://koreader.rocks)
 
-> ## iOS / iPadOS port
+> ## iOS / iPadOS — personal fork
 >
-> This is a fork of [koreader/koreader](https://github.com/koreader/koreader) with
-> an iOS / iPadOS target. It runs on iPhone and iPad, sideloaded via Xcode with a
-> free or paid Apple Developer account.
+> This repository is a fork of **[hezi/koreader-ios](https://github.com/hezi/koreader-ios)**,
+> the iOS / iPadOS port of [koreader/koreader](https://github.com/koreader/koreader).
+> It tracks that port and layers a few personal tweaks on top — see
+> [**What this fork changes**](#what-this-fork-changes) below.
 >
-> Highlights:
+> ### What this fork changes
 >
-> - Native iOS app bundle with launch screen, app icon, document types, safe-area
->   letterbox + clamping, rotation handling, night-mode invert, suspend/resume
->   refresh, single-tap event filtering.
-> - **iCloud Drive (and any other Files-app provider) folder picker**: add cloud
->   folders as KOReader folder shortcuts via iOS' native `UIDocumentPickerViewController`,
->   security-scoped bookmarks resolved on each launch.
-> - **Monolibtic build** (one ~17 MiB `libkoreader-monolibtic.dylib` instead of 30+
->   small dylibs) + **LuaJIT bytecode precompilation** at build time — cold launch on
->   a sideloaded iPhone is around 4 seconds.
-> - LuaJIT runs interpreter-only (the iOS sandbox forbids W^X without a special
->   entitlement). Builds against the iOS SDK from a macOS host via `make TARGET=ios`.
+> - **Extra reading fonts.** Nine free ([SIL OFL](https://openfontlicense.org))
+>   families bundled and ready to select in the reader, each shipped as proper
+>   Regular / Bold / Italic / Bold Italic cuts so bold and italic style-linking
+>   works in the crengine renderer:
+>   - *Serif:* Literata, Bitter, Source Serif 4, Vollkorn, Lora
+>   - *Sans-serif:* Atkinson Hyperlegible, Inter, Open Sans, Libre Franklin
 >
-> ### What you need
+>   `resources/fonts/` was converted from a submodule to a tracked directory so
+>   these ship with the repo. Proprietary fonts (e.g. Amazon's Bookerly) are
+>   **not** redistributed here — drop your own copy into
+>   `resources/fonts/bookerly/` and rebuild; it is auto-discovered.
+> - **Behaviour fixes** in `frontend/device/sdl/device.lua` and `reader.lua`:
+>   - Removed the automatic hardware-keyboard detection that caused typed
+>     characters to leak into the cover gallery / file browser.
+>   - Fixed the Quickstart guide that kept reopening on every launch.
 >
-> - **macOS** with **Xcode** installed (App Store or developer.apple.com — not the
->   Command-Line Tools alone; we need the iOS SDK).
-> - **Homebrew** (https://brew.sh).
-> - An **Apple ID** for sideloading. A free personal team gives you a 7-day cert
->   that works for personal builds; a paid Developer account gives you a 1-year
->   cert and unlocks iCloud Drive containers.
+> Everything else — the iOS app bundle, iCloud Drive folder picker, monolibtic
+> build, LuaJIT bytecode precompilation — comes from the upstream port, unchanged.
 >
-> ### Quick start
+> ### Building
 >
 > ```sh
-> # Install build prereqs (one command — `make TARGET=ios xcodeproj` will
-> # also run a preflight that lists anything missing).
 > brew install autoconf automake bash binutils cmake coreutils findutils \
 >     gettext gnu-getopt libtool make meson nasm ninja pkgconf sdl3 \
 >     util-linux xcodegen
->
-> # Put the GNU versions of make/find/getopt/util-linux ahead of macOS' BSD ones.
-> # Add this to your shell profile or run it in the shell you'll build from:
 > export PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$(brew --prefix)/opt/gnu-getopt/bin:$(brew --prefix)/opt/make/libexec/gnubin:$(brew --prefix)/opt/util-linux/bin:${PATH}"
->
-> # Optional but recommended: build the macOS emulator once first. KOReader's iOS
-> # build then has a host LuaJIT it can use to precompile the bundled .lua files
-> # to bytecode (knocks ~30% off boot time). Skipped silently if absent.
-> make TARGET=macos base
->
-> # Generate KOReader.xcodeproj at the repo root.
 > make TARGET=ios xcodeproj
-> open KOReader.xcodeproj
+> open KOReader.xcodeproj   # set your signing Team, then ⌘R on a connected device
 > ```
 >
-> In Xcode: **Signing & Capabilities** → check *Automatically manage signing* →
-> pick your team. Then plug in your iPhone/iPad, pick it as the Run destination,
-> and hit ⌘R. The app installs and launches.
->
-> Full instructions and a troubleshooting section live at
-> [`doc/Building_iOS.md`](doc/Building_iOS.md). The corresponding base submodule
-> is at [hezi/koreader-base-ios](https://github.com/hezi/koreader-base-ios).
+> Full prerequisites and troubleshooting live in
+> [`doc/Building_iOS.md`](doc/Building_iOS.md). The native base submodule is
+> [hezi/koreader-base-ios](https://github.com/hezi/koreader-base-ios).
 
 ---
 

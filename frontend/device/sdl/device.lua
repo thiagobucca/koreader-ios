@@ -66,7 +66,7 @@ local Device = Generic:extend{
     isSDL = yes,
     home_dir = os.getenv("XDG_DOCUMENTS_DIR") or os.getenv("HOME"),
     hasBattery = SDL.getPowerInfo,
-    hasKeyboard = yes,
+    hasKeyboard = no,
     hasKeys = yes,
     hasSymKey = os.getenv("DISABLE_TOUCH") == "1" and yes or no,
     hasDPad = yes,

@@ -282,11 +282,14 @@ else
     local last_file = G_reader_settings:readSetting("lastfile")
     local start_with = G_reader_settings:readSetting("start_with") or "filemanager"
 
-    local QuickStart = require("ui/quickstart")
-    if not QuickStart:isShown() then
-        start_with = "last"
-        last_file = QuickStart:getQuickStart()
-    end
+    -- DISABLED: este bloco forçava o guia de Quickstart a abrir em TODA inicialização,
+    -- porque QuickStart:isShown() retorna false neste build (detecção de versão).
+    -- Comentado para que o startup honre o 'start_with' e o último arquivo real.
+    -- local QuickStart = require("ui/quickstart")
+    -- if not QuickStart:isShown() then
+    --     start_with = "last"
+    --     last_file = QuickStart:getQuickStart()
+    -- end
 
     if start_with == "last" and last_file and lfs.attributes(last_file, "mode") ~= "file" then
         local function retryLastFile()
