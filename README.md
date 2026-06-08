@@ -20,6 +20,11 @@
 >   these ship with the repo. Proprietary fonts (e.g. Amazon's Bookerly) are
 >   **not** redistributed here — drop your own copy into
 >   `resources/fonts/bookerly/` and rebuild; it is auto-discovered.
+> - **SimpleUI plugin, bundled and enabled by default** — a distraction-free
+>   home screen, customisable bottom navigation bar, top status bar, and a
+>   reworked library title bar
+>   ([doctorhetfield-cmd/simpleui.koplugin](https://github.com/doctorhetfield-cmd/simpleui.koplugin),
+>   MIT). Configure it under *Menu → Tools → SimpleUI*.
 > - **Behaviour fixes** in `frontend/device/sdl/device.lua` and `reader.lua`:
 >   - Removed the automatic hardware-keyboard detection that caused typed
 >     characters to leak into the cover gallery / file browser.

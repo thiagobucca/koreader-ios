@@ -45,3 +45,6 @@ i18n
 # iOS: generated Xcode project (run `make TARGET=ios xcodeproj` to regenerate)
 /KOReader.xcodeproj/
 /platform/ios/Info.plist
+
+# Bookerly: fonte proprietaria da Amazon - nao redistribuir
+resources/fonts/bookerly/
